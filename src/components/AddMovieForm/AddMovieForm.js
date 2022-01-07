@@ -9,9 +9,8 @@ const AddMovieForm = (props) => {
   const [enteredTitle, setEnteredTitle] = useState("")
   const [enteredDirector, setEnteredDirector] = useState("")
   const [enteredPoster, setEnteredPoster] = useState("")
-  const [enteredCast, setEnteredCast] = useState([])
-  const [enteredKeywords, setEnteredKeywords] = useState([])
-
+  const [enteredCast, setEnteredCast] = useState({value: ""})
+  const [enteredKeywords, setEnteredKeywords] = useState({value: ""})
   const titleChangeHandler = e => {
     setEnteredTitle(e.target.value)
   };
@@ -25,16 +24,17 @@ const AddMovieForm = (props) => {
   };
 
   const castChangeHandler = e => {
-    setEnteredCast([
+    e.stopPropagation()
+    setEnteredCast({
       ...enteredCast,
-      e.target.value
-    ])
+      value: e.target.value
+    })
     console.log(enteredCast);
   };
 
   const keywordsChangeHandler = e => {
     setEnteredKeywords(prevState => {
-      return [...prevState, e.target.value]
+      return {...prevState, value: e.target.value}
     })
   };
 
@@ -46,15 +46,15 @@ const AddMovieForm = (props) => {
       title: enteredTitle,
       director: enteredDirector,
       cast: enteredCast,
-      poster: enteredPoster,
-      keywords: enteredKeywords,
+      image: enteredPoster,
+      keyWords: enteredKeywords,
     }
 
     setEnteredDirector("")
-    setEnteredKeywords("")
+    setEnteredKeywords({value: ""})
     setEnteredPoster("")
     setEnteredTitle("")
-    setEnteredCast("")
+    setEnteredCast({value: ""})
 
     console.log(newMovieEntry);
   }
@@ -76,10 +76,12 @@ const AddMovieForm = (props) => {
           />
         </div>
         <div>
-          <input placeholder="Cast" onChange={castChangeHandler} value={enteredCast}/>
+          <textarea placeholder="Cast members" onChange={castChangeHandler} value={enteredCast.value}></textarea>
+          {/* <input placeholder="Cast" onChange={castChangeHandler} value={enteredCast}/> */}
         </div>
         <div>
-          <input placeholder="Keywords" onChange={keywordsChangeHandler} value={enteredKeywords}/>
+        <textarea placeholder="Keywords" onChange={keywordsChangeHandler} value={enteredKeywords.value} />
+          {/* <input placeholder="Keywords" onChange={keywordsChangeHandler} value={enteredKeywords}/> */}
         </div>
         <div>
           <button type="submit">Create new movie</button>

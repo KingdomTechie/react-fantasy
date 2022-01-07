@@ -33,11 +33,30 @@ const AddMovieForm = (props) => {
   };
 
   const keywordsChangeHandler = e => {
-    setEnteredKeywords()
+    setEnteredKeywords(prevState => {
+      return [...prevState, e.target.value]
+    })
   };
 
   const submitHandler = (e) => {
+    e.preventDefault()
+    console.log("Form has been submitted");
 
+    let newMovieEntry = {
+      title: enteredTitle,
+      director: enteredDirector,
+      cast: enteredCast,
+      poster: enteredPoster,
+      keywords: enteredKeywords,
+    }
+
+    setEnteredDirector("")
+    setEnteredKeywords("")
+    setEnteredPoster("")
+    setEnteredTitle("")
+    setEnteredCast("")
+
+    console.log(newMovieEntry);
   }
 
   return (
